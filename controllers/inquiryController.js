@@ -20,21 +20,23 @@ exports.getInquiries = async (req, res) => {
       limit: parseInt(limit),
     };
 
+    if (mobile !== undefined && mobile !== null && mobile !== "") {
+      filters.phoneNumber = { $regex: new RegExp(mobile, 'i') };
+    }
 
-    if (fromDate && toDate) {
+    if (fromDate && toDate && fromDate !== undefined && fromDate !== null && fromDate !== "" && toDate !== undefined && toDate !== null && toDate !== "") {
       filters.appointmentDate = {
         $gte: new Date(fromDate),
         $lte: new Date(toDate),
       };
     }
 
-    if (mobile) {
-      filters.phoneNumber = { $regex: new RegExp(mobile, 'i') };
+    if (Object.keys(filters).length === 0) {
+      const inquiries = await Inquiry.paginate({}, options);
+      return res.status(200).json({ success: true, data: inquiries });
     }
 
-    const query = Inquiry.paginate(filters,options)
-      
-
+    const query = Inquiry.paginate(filters, options);
     const inquiries = await query;
 
     res.status(200).json({ success: true, data: inquiries });
