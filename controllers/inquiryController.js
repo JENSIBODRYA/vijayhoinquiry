@@ -13,7 +13,7 @@ exports.createInquiry = async (req, res) => {
 exports.getInquiries = async (req, res) => {
   try {
 
-    const { fromDate, toDate, mobile, page, limit } = req.query;
+    const { fromDate, toDate, mobile, page, limit,name } = req.query;
     const filters = {};
     const options = {
       page: parseInt(page),
@@ -21,7 +21,7 @@ exports.getInquiries = async (req, res) => {
     };
 
     if (mobile !== undefined && mobile !== null && mobile !== "") {
-      filters.phoneNumber = { $regex: new RegExp(mobile, 'i') };
+      filters.mobileNumber = { $regex: new RegExp(mobile, 'i') };
     }
 
     if (fromDate && toDate && fromDate !== undefined && fromDate !== null && fromDate !== "" && toDate !== undefined && toDate !== null && toDate !== "") {
