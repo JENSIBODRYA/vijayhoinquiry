@@ -1,5 +1,6 @@
 # Ignore node_modules (where project dependencies are typically installed)
 node_modules/
+frontend/
 
 # Ignore build artifacts and files generated during development/build process
 build/
